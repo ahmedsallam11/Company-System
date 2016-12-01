@@ -58,7 +58,8 @@ $empSupervisor = $emp['supfName']." ".$emp['suplName'];
 $empDepID = $emp['empDepID'];
 $empSupID = $emp['empSupID'];
 } 
-$all_sup = $obj_emp->fetch_allSup_byDep($empDepID);         
+$all_sup = $obj_emp->fetch_allSup_byDep($empDepID);  
+    
 ?> 
     <form method="post" action="">    
   <div class="form-group">

@@ -14,20 +14,21 @@ $obj_dep = new Departments();
 $input = new Input();       
 $obj_validate = new Validate();
     $val = $obj_validate->validate_input($_POST,array(
-    'depName'=> array(
+    'departmentName'=> array(
         'required'=> true,
         'min'=> 2,
         'max'=>50,
+        'unique'=>'departments',
         'onlyLetters'=>true
     ))) ;  
   
    $errors =  $obj_validate->errors;
     if($obj_validate->passed){
-$updateQ = $obj_dep->update_dep("departments",array('departmentName'=>$input->get("depName")),"departmentID",$depID);      if($updateQ){Helper::refresh();}  
+$updateQ = $obj_dep->update_dep("departments",array('departmentName'=>$input->get("departmentName")),"departmentID",$depID);      if($updateQ){Helper::refresh();}  
  } else {   
  $err_list = implode("<br>",$errors); 
   echo Helper::error($err_list);}}      
-       
+  $depName = "";     
 if($obj_url->parm_exists("depID")){       
 if(Validate::valid_ID($depID)){ 
   $depArray = $obj_dep->fetchDepbyID($depID); }}
@@ -39,7 +40,7 @@ if(!empty($depArray)) {
     <form method="post" action="">    
   <div class="form-group">
     <label for="depName">Name</label> &nbsp;&nbsp;<lable id="depMessa" for="depName"></lable>
-    <input type="text" class="form-control" name="depName" onkeyup="valdep()" id="depName" value="<?php echo $depName;?>">
+    <input type="text" class="form-control" name="departmentName" onkeyup="valdep()" id="depName" value="<?php echo $depName;?>">
   
   </div>
     

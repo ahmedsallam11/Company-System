@@ -10,6 +10,12 @@
     Core: General style
 ----------------------------
 */
+body h2 {position:relative;margin-left:20px;}
+.userInfo{position: relative;margin:0 auto;float: right;margin: 10px;margin-right: 25px;}
+.regForm{position: relative;margin-top: 30px; background-color: #283744;border: solid 1px black; border-radius: 10px;
+max-width:500px; padding: 15px;color: white;
+}
+.alert{position: relative; margin: 0 auto; max-width:60%;margin-top:20px;}
 html,
 body {
   overflow-x: hidden!important;

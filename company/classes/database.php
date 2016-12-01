@@ -81,7 +81,7 @@ class Database {
            foreach ($fields as $key=>$value){      
            $values [] = "{$key}='{$value}'"; }   
            // $values = http_build_query($fields,"",', ');
-         $sql = "UPDATE $table SET ".implode(", " , $values)."  WHERE $byName = $byValue";  
+         $sql = "UPDATE $table SET ".implode(", " , $values)."  WHERE {$byName} = '{$byValue}'";  
         if ($this->query($sql)){
             return true;
         }else{return false;}

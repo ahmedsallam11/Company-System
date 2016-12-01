@@ -4,7 +4,9 @@ require_once "config.php"; ?>
          <h2 style="position:relative;margin-left:20px;">Welcome to employees!</h2>
 <div class="row"><!--Main Row-->
     <div class="col-md-7 col-md-offset-1"><!--table col-->
-<a href="?page=add_emp"><button class="btn btn-success">Add New</button></a><br><br>
+<?php if(!Login::roleExists(3)){ ?>              
+<a href="?page=add_emp"><button class="btn btn-success">Add New</button></a><?php } ?>
+        <br><br>
 <table class="table  table-bordered">
   <thead>
       <th>N</th> 
@@ -13,17 +15,19 @@ require_once "config.php"; ?>
       <th>Department</th> 
       <th>Supervisor</th> 
       <th>Salary</th>
-      <th>Options</th> 
+<?php if(!Login::roleExists(3)){ ?>      
+      <th>Options</th><?php } ?> 
   </thead>
 <tbody>  
 <?php
 $obj_emp = new Employees ();
 $get = new Url();
 $supID = $get->get_parm("supID");   
-$EmpID = $get->get_parm("delet");
+$EmpID = $get->get_parm("delete");
 if(Validate::valid_ID($EmpID)){
+ if(Login::roleExists(1)){    
 $deleteEmp = $obj_emp->deleEmp("employees","employeeID",$EmpID);
-if($deleteEmp){Helper::redirect("ordinary_employees");}    
+if($deleteEmp){Helper::redirect("?page=ordinary_employees");}}else{echo Helper::error("You don't have permession to do this action");}     
 }
 if(Validate::valid_ID($supID)){
 $all_emp = $obj_emp->fetch_ordEmp_forSup($supID);}
@@ -42,9 +46,10 @@ echo "<td>{$emp['supfName']}";
 echo " ";    
 echo "{$emp['suplName']}</td>";    
 echo "<td>{$emp['salary']}</td>";
+if(!Login::roleExists(3)){    
 echo "<td><a href='?page=edit_emp&empID={$emp['employeeID']}'>Edit</a>&nbsp;&nbsp;&nbsp;";
-echo "<a href='?page=ordinary_employees&delet={$emp['employeeID']}'>Delete</a></td>";       
-echo "</tr>";    
+echo "<a href='?page=ordinary_employees&delete={$emp['employeeID']}'>Delete</a></td>";       
+echo "</tr>";}    
 $n++; }?> 
 </tbody>      
 </table>

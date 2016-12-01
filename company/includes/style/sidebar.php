@@ -29,6 +29,11 @@
                                     </a>
                                 </li>
 
+                                <li>
+                                    <a href="?page=users">
+                                        <i class="fa fa-globe"></i> <span>Users</span>
+                                    </a>
+                                </li>
                             </ul>
                         </section>
                         <!-- /.sidebar -->

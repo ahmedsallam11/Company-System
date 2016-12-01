@@ -16,7 +16,11 @@ class Helper{
     }  
     
  public static function redirect($dir){
- return header("Location:?page={$dir}");
+ return header("Location:{$dir}");
     } 
+    
+ public static function retBack(){
+     return header ('Location: '.($_SERVER['HTTP_REFERER']));
+ }    
     
 }

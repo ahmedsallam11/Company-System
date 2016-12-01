@@ -5,7 +5,8 @@ require_once "config.php"; ?>
 <div class="row"><!--Main Row-->
     <div class="col-md-7 col-md-offset-1"><!--table col-->
 <table class="table  table-bordered">
-    <a href="?page=add_emp"><button class="btn btn-success">Add New</button></a><br><br>
+<?php if(!Login::roleExists(3)){ ?>       
+    <a href="?page=add_emp"><button class="btn btn-success">Add New</button></a><?php } ?><br><br>
   <thead>
       <th>N</th> 
       <th>First name</th> 
@@ -13,16 +14,18 @@ require_once "config.php"; ?>
       <th>Department</th>  
       <th>Salary</th>
       <th>Sub-Employees</th>
-      <th>Options</th>
+<?php if(!Login::roleExists(3)){ ?>       
+      <th>Options</th><?php } ?>
   </thead>
 <tbody>  
-<?php
+<?php    
 $obj_emp = new Employees ();    
 $get = new Url();
-$EmpID = $get->get_parm("delet");
+$EmpID = $get->get_parm("delete");
 if(Validate::valid_ID($EmpID)){
+ if(Login::roleExists(1)){    
 $deleteEmp = $obj_emp->deleEmp("employees","employeeID",$EmpID);
-if($deleteEmp){Helper::redirect("supervisors");}    
+if($deleteEmp){Helper::redirect("?page=supervisors");}}else{echo Helper::error("You don't have permession to do this action");}     
 }     
 $all_sup = $obj_emp->fetch_allSup();
 if(!empty($all_sup)){  
@@ -43,10 +46,12 @@ if(!empty($ordEmpforSup)){
       $subEmpArray [] = "{$subEmpfName}&nbsp{$subEmplName}";        
     }$subEmpString = implode("<br>",$subEmpArray);    
 }
-echo "<td><a href='?page=ordinary_employees&supID={$sup['employeeID']}'>See</a></td>"; 
+  
+echo "<td><a href='?page=ordinary_employees&supID={$sup['employeeID']}'>See</a></td>";
+if(!Login::roleExists(3)){     
 echo "<td><a href='?page=edit_sup&supID={$sup['employeeID']}'>Edit</a>&nbsp;&nbsp;&nbsp;";
-echo "<a href='?page=supervisors&delet={$sup['employeeID']}'>Delete</a></td>";     
-echo "</tr>";    
+echo "<a href='?page=supervisors&delete={$sup['employeeID']}'>Delete</a></td>";     
+echo "</tr>"; }    
 $n++; }?> 
 </tbody>      
 </table>

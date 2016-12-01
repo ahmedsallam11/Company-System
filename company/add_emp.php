@@ -1,3 +1,4 @@
+
 <?php 
 require_once "config.php"; 
 ?>
@@ -42,7 +43,8 @@ $input = new Input();
     }   
 }              
 $all_dep = $obj_dep->fetch_all_departments();        
-$all_sup = $obj_emp->fetch_allSup();  
+$all_sup = $obj_emp->fetch_allSup();
+       
 ?> 
     <form method="post" action="">    
   <div class="form-group">

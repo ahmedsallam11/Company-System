@@ -46,7 +46,6 @@ $userstatus =$user['userStatus'];    }
 <h2>Edit User</h2>
 <div class="row">
 <div class="col-md-7 col-md-offset-1 ">
-    <h2 style="text-align:center;color:white;">Sign Up!</h2>
     <form method="post" action="">
       <div class="form-group">
     <label for="username">Username</label>

@@ -1,54 +1,64 @@
 <?php
 class Regist extends Inst{
-    
-    
-    public function encrypt_pass($password){
+    //private $method ="aes-256-cbc";
+ 
+    public function hash_pass($password){
         if(!empty($password)){
-            $encrypted_password = password_hash($password,PASSWORD_DEFAULT);
-            return ($encrypted_password)?$encrypted_password : null;
+            $hashed_password = password_hash($password,PASSWORD_DEFAULT);
+            return ($hashed_password)?$hashed_password : null;
         }
     }
     
     
     
-    public function reg_user($table,$items,$username,$email,$key){    
+    public function reg_user($table,$items,$username,$email,$token){ 
+    $encrypted_username = self::encode($username); //Encoding Username 
     $result = $this->db->insert($table,$items);
-    $sendActCode = self::sendActCode($username,$email,$key);
+    $sendActCode = self::sendActCode($username,$email,$token,$encrypted_username);//sending a link containing encoded username and token
     if($result) {
-    Helper::redirect("index.php");   
+    echo Helper::success("Done");
+        exit();
+    //Helper::redirect("index.php");   
       }
     }
     
-    public function activate_user($act_code){
-        if(!empty($act_code)){   
-        $result = $this->db->update("users",array('statusID'=>'1'),"act_code",$act_code);
+    public function activate_user($token){
+        if(!empty($token)){   
+        $result = $this->db->update("users",array('statusID'=>'1'),"token",$token);
         return ($result)? true : false;
         }else{return false;}
         
     }
     
-    private static function sendActCode($username,$email,$key){
+    private static function sendActCode($username,$email,$token,$encrypted_username){
     
-  $subject = "Email Confirmation";
-  $to_fullname = $username;
-    $to_email = $email;
-  $from_email = "auto_sender@echomy.site";
-  $from_fullname = "Company";
-  $headers  = "MIME-Version: 1.0\r\n";
-  $headers .= "Content-type: text/html; charset=utf-8\r\n";
-  $headers .= "To: $to_fullname <$to_email>\r\n";
-  $headers .= "From: $from_fullname <$from_email>\r\n";
-  $message = "Hi, {$to_fullname} ";
-  $message .= "kindly open this link: http://$_SERVER[HTTP_HOST]/act_user.php?act_code={$key} to activate your account.";
-  $sending = mail($to_email, $subject, $message, $headers);
-  if ($sending) { 
-    print_r(error_get_last());
-  }
-  
+    $subject = "Email Confirmation!";
+    $message = "Hi, {$username}.\n\n";
+    $message .= "kindly open this link: http://$_SERVER[HTTP_HOST]/act_user.php?u=".$encrypted_username."&token=".$token." to activate your account.\n";
+    $headers = "From: auto_sender@echomy.site \r\n";
+    mail($email,$subject,$message,$headers);
+
   } 
     
-    public static function genActCode(){
-        return $key = md5(microtime().rand());
-
-    }
+  public static function mdFive($value){
+      if(!empty($value)){
+          return md5($value);
+      }else{return null;}
+  }
+    
+    private static function encode($value){
+      if(!empty($value)){
+//          $enckey = openssl_random_pseudo_bytes(32);
+//          $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length("aes-256-cbc"));
+//          $encrypted = openssl_encrypt($value,"aes-256-cbc",$enckey,0,$iv);
+//          $encrypted = $encrypted.":".$iv;
+          $encrypted = base64_encode($value);
+          return $encrypted;
+      }else{return null;}
+  } 
+    
+ public static function decode($encrypted){
+          $decrypted = base64_decode($encrypted);
+     return $decrypted;
+ }
 }

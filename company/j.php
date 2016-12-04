@@ -1,2 +1,2 @@
 <?php
-phpinfo();
+echo CURRENT_TIMESTAMP();

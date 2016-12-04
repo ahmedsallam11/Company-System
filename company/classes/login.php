@@ -2,9 +2,9 @@
 
 
 class Login extends Inst{
-    private $hAdminPages = array('users','edit_user','add_emp'),
-    $adminPages = array('edit_dep','edit_emp','edit_sup','departments','ordinary_employees','supervisors'),
-    $ordPages = array('departments','ordinary_employees','supervisors');
+    private $hAdminPages = array('users','edit_user','add_emp','edit_profile'),
+    $adminPages = array('edit_dep','edit_emp','edit_sup','departments','ordinary_employees','supervisors','edit_profile'),
+    $ordPages = array('departments','ordinary_employees','supervisors','edit_profile');
     
     private static function redirect ($dir){
         return header("Location:{$dir}");

@@ -36,10 +36,11 @@ $input = new Input();
   
    $errors =  $obj_validate->errors;
     if($obj_validate->passed){
+$dateTime =date('l jS \of F Y h:i:s A');     
         $obj_regist = new Regist();
-        $encrypted_password = $obj_regist->encrypt_pass($input->get("password"));
-        $ActKey =Regist::genActCode();
-        $regUser = $obj_regist->reg_user("users",array('username'=>$input->get("username"),'email'=>$input->get("email"),'password'=>$encrypted_password,'act_code'=>$ActKey),$input->get("username"),$input->get("email"),$ActKey);
+        $hashed_password = $obj_regist->hash_pass($input->get("password"));
+        $token=Regist::mdFive($input->get("email").microtime().rand());
+$regUser = $obj_regist->reg_user("users",array('username'=>$input->get("username"),'email'=>$input->get("email"),'reg_date'=>$dateTime,'password'=>$hashed_password,'token'=>$token),$input->get("username"),$input->get("email"),$token,$dateTime);
 
     }else {
   $err_list = implode("<br>",$errors); 

@@ -10,7 +10,7 @@
                   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Hello <?php echo $_SESSION['username']; ?>
                   <span class="caret"></span></button>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Edit Profile</a></li>
+                    <li><a href="index.php?page=edit_profile">Edit Profile</a></li>
                     <li><a href="logout.php">Logout</a></li>
                   </ul>
                 </div><?php } ?> 
